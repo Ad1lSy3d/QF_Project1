@@ -1,0 +1,141 @@
+API ENDPOINT DOCUMENTATION
+
+GET /
+
+Purpose:
+Health check to confirm the backend is running and data is loaded.
+
+Input:
+None
+
+Output:
+{
+"status": "RL Trading Backend Running",
+"pairs_loaded":
+}
+
+GET /run
+
+Purpose:
+Runs full backtesting on all pairs using historical data.
+
+Input:
+None
+
+Output:
+{
+"num_pairs": ,
+"results": [
+{
+"pair": "",
+"pair_type": "positive" | "negative",
+"gnn_strength": ,
+"final_equity": ,
+"total_pnl": ,
+"trades": [ ... ]
+}
+]
+}
+
+Notes:
+
+Slow operation
+Used for full evaluation and demo
+GET /summary
+
+Purpose:
+Returns lightweight results for all pairs.
+
+Input:
+None
+
+Output:
+{
+"summary": [
+{
+"pair": "",
+"pair_type": "positive" | "negative",
+"pnl": ,
+"equity":
+}
+]
+}
+
+Notes:
+
+Faster than /run
+Suitable for dashboards
+GET /pair/{pair_name}
+
+Purpose:
+Returns detailed results for a single pair.
+
+Input:
+URL parameter:
+pair_name = ""
+
+Output:
+{
+"pair": "",
+"pair_type": "positive" | "negative",
+"gnn_strength": ,
+"final_equity": ,
+"total_pnl": ,
+"trades": [ ... ]
+}
+
+Error Output:
+{
+"error": "Pair not found"
+}
+
+GET /reload
+
+Purpose:
+Reloads price data and pairs without restarting the server.
+
+Input:
+None
+
+Output:
+{
+"message": "Data reloaded",
+"pairs_loaded":
+}
+
+WHAT TO ADD NEXT
+
+POST /live
+
+Purpose:
+Runs real-time inference using new incoming price data.
+
+Input:
+{
+"prices_a": [, ...],
+"prices_b": [, ...],
+"pair_type": "positive" | "negative", (optional)
+"gnn_strength": (optional)
+}
+
+Output:
+{
+"pair_analysis": {
+"correlation": ,
+"pair_type": "positive" | "negative",
+"latest_zscore":
+},
+"latest_prices": {
+"stock_a": ,
+"stock_b":
+},
+"decision": {
+"last_action": ,
+"interpretation": "LONG_SPREAD" | "SHORT_SPREAD" | "HOLD"
+},
+"performance": {
+"final_equity": ,
+"total_pnl":
+},
+"trades": [ ... ]
+}

@@ -18,7 +18,7 @@ def run_inference(actor, pair_data, config):
             config["transaction_cost"]
         )
 
-        obs = get_observation(state, 0)
+        obs = get_observation(state, 0 )
         done = False
 
         while not done:
